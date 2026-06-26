@@ -12,7 +12,7 @@ interface Request {
 }
 
 function RequestsPage() {
-  const [requests, setRequests] = useState<Request[]>([]);
+  const [messages, setMessages] = useState<any[]>([]);
 
   useEffect(() => {
     const fetchRequests = async () => {
