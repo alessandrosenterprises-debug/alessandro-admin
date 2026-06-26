@@ -55,3 +55,16 @@ function BookingsPage() {
 }
 
 export default BookingsPage;
+import BookingsPage from './BookingsPage';
+
+function Dashboard() {
+  return (
+    <div>
+      <h1>Admin Dashboard</h1>
+      {/* Existing dashboard content */}
+      <BookingsPage />
+    </div>
+  );
+}
+
+export default Dashboard;
