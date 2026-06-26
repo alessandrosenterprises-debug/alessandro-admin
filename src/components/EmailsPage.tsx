@@ -13,7 +13,7 @@ interface Email {
 }
 
 function EmailsPage() {
-  const [emails, setEmails] = useState<Email[]>([]);
+  const [messages, setMessages] = useState<any[]>([]);
 
   useEffect(() => {
     const fetchEmails = async () => {
