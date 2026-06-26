@@ -182,5 +182,23 @@ function Dashboard() {
   );
 }
 
+import BookingsPage from './BookingsPage';
+import MessagesPage from './MessagesPage';
+import RequestsPage from './RequestsPage';
+import EmailsPage from './EmailsPage';
+
+function Dashboard() {
+  return (
+    <div>
+      <h1>Admin Dashboard</h1>
+      <BookingsPage />
+      <MessagesPage />
+      <RequestsPage />
+      <EmailsPage />
+    </div>
+  );
+}
+
+export default Dashboard;
 export default Dashboard;
 
