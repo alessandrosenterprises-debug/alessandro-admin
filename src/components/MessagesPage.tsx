@@ -17,7 +17,7 @@ interface Message {
 }
 
 function MessagesPage() {
-  const [messages, setMessages] = useState<Message[]>([]);
+  const [messages, setMessages] = useState<any[]>([]);
 
   useEffect(() => {
     const fetchMessages = async () => {
