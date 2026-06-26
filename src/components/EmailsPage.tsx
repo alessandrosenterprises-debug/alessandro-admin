@@ -16,25 +16,21 @@ function EmailsPage() {
   const [messages, setMessages] = useState<any[]>([]);
 
   useEffect(() => {
-    const fetchEmails = async () => {
-      const { data, error } = await supabase
-        .from('emails')
-        .select(`
-          id,
-          subject,
-          body,
-          sent_at,
-          status,
-          customers (name, business)
-        `)
-        .order('sent_at', { ascending: false });
+  const fetchMessages = async () => {
+    const { data, error } = await supabase
+      .from('messages')
+      .select('*')
+      .order('sent_at', { ascending: false });
 
-      if (error) {
-        console.error('Error fetching emails:', error);
-      } else {
-        setEmails(data as Email[]);
-      }
-    };
+    if (error) {
+      console.error('Error fetching messages:', error);
+    } else {
+      setMessages(data || []);
+    }
+  };
+
+  fetchMessages();
+}, []);
 
     fetchEmails();
   }, []);
