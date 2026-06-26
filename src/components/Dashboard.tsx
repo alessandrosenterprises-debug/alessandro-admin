@@ -170,3 +170,17 @@ export const Dashboard: React.FC = () => {
     </div>
   );
 };
+import MessagesPage from './MessagesPage';
+
+function Dashboard() {
+  return (
+    <div>
+      <h1>Admin Dashboard</h1>
+      <MessagesPage />
+      {/* Add BookingsPage, RequestsPage, EmailsPage here */}
+    </div>
+  );
+}
+
+export default Dashboard;
+
