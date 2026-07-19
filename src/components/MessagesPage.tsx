@@ -1,4 +1,3 @@
-import { supabase } from '../supabaseClient';
 import { useEffect, useState } from 'react';
 import { supabase } from '../supabaseClient';
 
@@ -7,60 +6,109 @@ interface Message {
   content: string;
   sent_at: string;
   status: string;
-  topic: string;
-  extension: string;
-  event: string;
-  private: boolean;
-  updated_at: string;
-  inserted_at: string;
-  customers: { name: string; business: string };
+  customers: {
+    name: string;
+    business: string;
+  } | null;
 }
 
 function MessagesPage() {
-  const [messages, setMessages] = useState<any[]>([]);
+  const [messages, setMessages] = useState<Message[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchMessages = async () => {
-      const { data, error } = await supabase
-        .from('messages')
-        .select(`
-          id,
-          content,
-          sent_at,
-          status,
-          topic,
-          extension,
-          event,
-          private,
-          updated_at,
-          inserted_at,
-          customers (name, business)
-        `)
-        .order('sent_at', { ascending: false });
-
-      if (error) {
-        console.error('Error fetching messages:', error);
-      } else {
-        setMessages(data as Message[]);
-      }
-    };
-
     fetchMessages();
+
+    const channel = supabase
+      .channel('messages-live')
+      .on(
+        'postgres_changes',
+        {
+          event: '*',
+          schema: 'public',
+          table: 'messages',
+        },
+        () => {
+          fetchMessages();
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
   }, []);
+
+  async function fetchMessages() {
+    setLoading(true);
+
+    const { data, error } = await supabase
+      .from('messages')
+      .select(`
+        id,
+        content,
+        sent_at,
+        status,
+        customers:customer_id (
+          name,
+          business
+        )
+      `)
+      .order('sent_at', { ascending: false });
+
+    if (error) {
+      console.error(error);
+    } else {
+      setMessages((data as Message[]) || []);
+    }
+
+    setLoading(false);
+  }
+
+  if (loading) {
+    return <p>Loading messages...</p>;
+  }
 
   return (
     <div>
       <h2>Messages</h2>
+
       {messages.length === 0 ? (
-        <p>No messages yet.</p>
+        <p>No messages found.</p>
       ) : (
-        messages.map(m => (
-          <div key={m.id} style={{ marginBottom: '1rem' }}>
-            <strong>{m.customers?.name} ({m.customers?.business})</strong><br />
-            {m.content}<br />
-            Topic: {m.topic} | Status: {m.status}<br />
-            Sent: {new Date(m.sent_at).toLocaleString()}<br />
-            Event: {m.event} | Extension: {m.extension}
+        messages.map((message) => (
+          <div
+            key={message.id}
+            style={{
+              padding: '16px',
+              marginBottom: '16px',
+              border: '1px solid #ddd',
+              borderRadius: '8px',
+            }}
+          >
+            <h3>
+              {message.customers?.name ?? 'Unknown Customer'}
+            </h3>
+
+            <p>
+              <strong>Business:</strong>{' '}
+              {message.customers?.business ?? 'N/A'}
+            </p>
+
+            <p>
+              <strong>Message:</strong>
+            </p>
+
+            <p>{message.content}</p>
+
+            <p>
+              <strong>Status:</strong> {message.status}
+            </p>
+
+            <p>
+              <strong>Sent:</strong>{' '}
+              {new Date(message.sent_at).toLocaleString()}
+            </p>
           </div>
         ))
       )}
