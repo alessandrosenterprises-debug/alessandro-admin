@@ -1,5 +1,3 @@
-import { supabase } from '../supabaseClient';
-
 import { useEffect, useState } from 'react';
 import { supabase } from '../supabaseClient';
 
@@ -7,8 +5,14 @@ interface Booking {
   id: string;
   date: string;
   status: string;
-  customers: { name: string; business: string };
-  services: { name: string; price: number };
+  customers?: {
+    name: string;
+    business: string;
+  };
+  services?: {
+    name: string;
+    price: number;
+  };
 }
 
 function BookingsPage() {
@@ -22,15 +26,21 @@ function BookingsPage() {
           id,
           date,
           status,
-          customers (name, business),
-          services (name, price)
+          customers (
+            name,
+            business
+          ),
+          services (
+            name,
+            price
+          )
         `)
         .order('date', { ascending: true });
 
       if (error) {
         console.error('Error fetching bookings:', error);
       } else {
-        setBookings(data as Booking[]);
+        setBookings((data as Booking[]) || []);
       }
     };
 
@@ -40,15 +50,35 @@ function BookingsPage() {
   return (
     <div>
       <h2>Bookings</h2>
+
       {bookings.length === 0 ? (
         <p>No bookings yet.</p>
       ) : (
-        bookings.map(b => (
-          <div key={b.id}>
-            <strong>{b.customers.name} ({b.customers.business})</strong><br />
-            Service: {b.services.name} – ${b.services.price}<br />
-            Date: {new Date(b.date).toLocaleString()}<br />
-            Status: {b.status}
+        bookings.map((booking) => (
+          <div key={booking.id} style={{ marginBottom: '1rem' }}>
+            <strong>
+              {booking.customers?.name ?? 'Unknown'} (
+              {booking.customers?.business ?? 'N/A'})
+            </strong>
+
+            <br />
+
+            <strong>Service:</strong>{' '}
+            {booking.services?.name ?? 'Unknown'}{' '}
+            {booking.services?.price != null
+              ? `- $${booking.services.price}`
+              : ''}
+
+            <br />
+
+            <strong>Date:</strong>{' '}
+            {new Date(booking.date).toLocaleString()}
+
+            <br />
+
+            <strong>Status:</strong> {booking.status}
+
+            <hr />
           </div>
         ))
       )}
@@ -57,16 +87,3 @@ function BookingsPage() {
 }
 
 export default BookingsPage;
-import BookingsPage from './BookingsPage';
-
-function Dashboard() {
-  return (
-    <div>
-      <h1>Admin Dashboard</h1>
-      {/* Existing dashboard content */}
-      <BookingsPage />
-    </div>
-  );
-}
-
-export default Dashboard;
