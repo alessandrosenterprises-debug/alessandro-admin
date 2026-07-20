@@ -1,3 +1,18 @@
+.admin-brand {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.admin-brand-logo {
+  width: 62px;
+  height: 62px;
+  object-fit: contain;
+  border-radius: 50%;
+  padding: 4px;
+  background: #fff;
+  border: 2px solid #c8a553;
+}
 :root {
   --primary: #0066cc;
   --success: #00a854;
