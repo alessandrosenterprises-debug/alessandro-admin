@@ -114,25 +114,31 @@ button:disabled {
   padding: 20px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.08);
   transition: transform 0.2s ease;
-  min-height: 120px; /* consistent card height */
+  min-height: 120px;
 }
 
 .metrics article:hover { transform: translateY(-4px); }
 .metrics b { font-size: 28px; color: var(--primary); }
 .metrics span { color: var(--neutral); }
 
-.two-column {
+.dashboard-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 24px;
 }
 
-.two-column > div {
+.dashboard-grid section {
   background: #fff;
   border-radius: 12px;
   padding: 20px;
   box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-  min-height: 300px; /* consistent panel height */
+  min-height: 280px;
+}
+
+.dashboard-grid section h2 {
+  margin-top: 0;
+  font-size: 18px;
+  color: var(--primary);
 }
 
 .business-settings-grid {
@@ -149,7 +155,7 @@ button:disabled {
   border-radius: 12px;
   padding: 15px;
   background: linear-gradient(145deg, #fff, #f8fafc);
-  min-height: 180px; /* consistent card height */
+  min-height: 180px;
 }
 
 .business-setting img {
@@ -188,5 +194,5 @@ button:disabled {
   aside { position: relative; width: 100%; margin-bottom: 20px; }
   main { margin-left: 0; padding: 16px; }
   header { flex-direction: column; gap: 12px; align-items: flex-start; }
-  .metrics, .two-column { grid-template-columns: 1fr; }
+  .metrics, .dashboard-grid { grid-template-columns: 1fr; }
 }
