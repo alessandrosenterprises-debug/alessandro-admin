@@ -1,6 +1,7 @@
 import { FormEvent, ReactNode, useCallback, useEffect, useState } from 'react';
 import type { Session } from '@supabase/supabase-js';
 import { supabase } from './supabaseClient';
+import { AdminSettings } from './components/AdminSettings';
 import './App.css';
 
 type Customer = { id: string; name: string; email: string; business: string | null; status: string };
@@ -108,24 +109,7 @@ function App() {
   if (!session) return <Login onSession={setSession} />;
   return (
     <div className="App">
-      <header>
-  <div className="admin-brand">
-    <img
-      src="/logos/alessandroenterprises.png"
-      alt="Alessandro Enterprises"
-      className="admin-brand-logo"
-    />
-    <div>
-      <h1>Alessandro Admin Dashboard</h1>
-      <p>Live customer portal data</p>
-    </div>
-  </div>
-
-  <div className="header-actions">
-    <span>{session.user.email}</span>
-    <button onClick={() => void signOut()}>Sign out</button>
-  </div>
-</header>
+      <header><div><h1>Alessandro Admin Dashboard</h1><p>Live customer portal data</p></div><div className="header-actions"><span>{session.user.email}</span><button onClick={() => void signOut()}>Sign out</button></div></header>
       <main>
         <div className="toolbar"><button onClick={() => void load()}>Refresh</button>{notice && <span className="notice">{notice}</span>}{error && <p className="error">{error}</p>}</div>
         {loading ? <p>Loading live data…</p> : <>
@@ -135,6 +119,7 @@ function App() {
           <section><h2>Requests</h2><Table rows={requests} empty="No requests yet." render={(row) => <><b>{row.customers?.name ?? 'Unknown customer'} — {row.request_type}</b><span>{row.description}</span><span>{new Date(row.created_at).toLocaleString()}</span><StatusSelect value={row.status} onChange={(status) => void updateStatus('requests', row.id, status)} /></>} /></section>
           <section><h2>Emails</h2><Table rows={emails} empty="No emails yet." render={(row) => <><b>{row.customers?.name ?? 'Unknown customer'} — {row.subject}</b><span>{row.body}</span><span>{new Date(row.sent_at).toLocaleString()}</span><StatusSelect value={row.status} onChange={(status) => void updateStatus('emails', row.id, status)} /></>} /></section>
           <section className="two-column"><div><h2>Services</h2><form onSubmit={addService} className="inline-form"><input placeholder="Service name" value={serviceName} onChange={(e) => setServiceName(e.target.value)} required /><input type="number" min="0" step="0.01" placeholder="Price" value={servicePrice} onChange={(e) => setServicePrice(e.target.value)} required /><button>Add service</button></form><Table rows={services} empty="No services." render={(row) => <><b>{row.name}</b><span>${row.price}</span><span>{row.active ? 'Active' : 'Inactive'}</span></>} /></div><div><h2>Promotions</h2><form onSubmit={addPromotion} className="inline-form"><input placeholder="Promotion title" value={promotionTitle} onChange={(e) => setPromotionTitle(e.target.value)} required /><input type="number" min="0" step="0.01" placeholder="Discount %" value={promotionDiscount} onChange={(e) => setPromotionDiscount(e.target.value)} required /><button>Add promotion</button></form><Table rows={promotions} empty="No promotions." render={(row) => <><b>{row.title}</b><span>{row.discount}% off</span><span>{row.active ? 'Active' : 'Inactive'}</span></>} /></div></section>
+          <AdminSettings />
         </>}
       </main>
     </div>
