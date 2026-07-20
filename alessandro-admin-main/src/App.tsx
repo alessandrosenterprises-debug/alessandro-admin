@@ -32,7 +32,14 @@ function Login({ onSession }: { onSession: (session: Session) => void }) {
     onSession(data.session); setLoading(false);
   }
 
-  return <main className="auth"><form onSubmit={submit} className="auth-card"><h1>Admin Dashboard</h1><p>Sign in with an administrator account.</p><label>Email<input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required /></label><label>Password<input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required /></label>{error && <p className="error">{error}</p>}<button disabled={loading}>{loading ? 'Signing in…' : 'Sign in'}</button></form></main>;
+  return <main className="auth"><nav className="admin-quick-nav">
+  <a href="#bookings">Bookings</a>
+  <a href="#messages">Messages</a>
+  <a href="#requests">Requests</a>
+  <a href="#emails">Emails</a>
+  <a href="#business-tools">Business tools</a>
+  <a href="#business-settings">Settings</a>
+</nav><form onSubmit={submit} className="auth-card"><h1>Admin Dashboard</h1><p>Sign in with an administrator account.</p><label>Email<input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required /></label><label>Password<input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required /></label>{error && <p className="error">{error}</p>}<button disabled={loading}>{loading ? 'Signing in…' : 'Sign in'}</button></form></main>;
 }
 
 function App() {
