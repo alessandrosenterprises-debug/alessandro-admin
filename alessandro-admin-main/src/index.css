@@ -1,11 +1,45 @@
 :root {
-  color-scheme: light;
+  --primary: #0066cc;
+  --primary-dark: #0052a3;
+  --primary-light: #e6f0ff;
+  --success: #00a854;
+  --success-light: #e6f7ee;
+  --error: #ff4d4f;
+  --error-light: #fff1f1;
+  --warning: #faad14;
+  --warning-light: #fffbe6;
+  --purple: #7c3aed;
+  --purple-light: #f3eeff;
+
+  --bg: #f0f4fa;
+  --surface: #ffffff;
+  --border: #e2e8f0;
+  --border-light: #f1f5f9;
+  --text: #0f172a;
+  --text-secondary: #475569;
+  --text-muted: #94a3b8;
+  --radius: 12px;
+  --radius-sm: 8px;
+  --radius-lg: 16px;
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow: 0 4px 12px rgba(0, 0, 0, 0.08), 0 2px 4px rgba(0, 0, 0, 0.04);
+  --shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.12), 0 4px 8px rgba(0, 0, 0, 0.06);
 }
 
-body { margin: 0; min-width: 320px; min-height: 100vh; background: #f5f7fb; }
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
 
-#root {
-  width: 100%;
-  margin: 0 auto;
-  text-align: center;
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', 'Roboto',
+    'Oxygen', 'Ubuntu', 'Cantarell', 'Helvetica Neue', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 14px;
+  line-height: 1.5;
 }
