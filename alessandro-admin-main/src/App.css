@@ -15,12 +15,13 @@ body {
   background: var(--background);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow: hidden; /* prevent double scrollbars */
 }
 
 .App {
   display: grid;
   grid-template-columns: 220px 1fr;
-  min-height: 100vh;
+  height: 100vh;
   max-width: 1920px;
   margin: 0 auto;
 }
@@ -54,9 +55,10 @@ aside nav a {
 
 main {
   margin-left: 220px;   /* offset for fixed sidebar */
-  max-width: 1600px;
-  padding: 32px;
+  height: 100vh;
   overflow-y: auto;
+  padding: 32px;
+  box-sizing: border-box;
 }
 
 header {
@@ -99,20 +101,11 @@ button:disabled {
   cursor: wait;
 }
 
-.header-actions, .toolbar, .inline-form {
-  display: flex;
-  gap: 10px;
-  align-items: center;
-  flex-wrap: wrap;
-}
-
-.toolbar { min-height: 34px; margin-bottom: 20px; }
-
 .metrics {
   display: grid;
   grid-template-columns: repeat(4, minmax(220px, 1fr));
   gap: 20px;
-  margin-bottom: 26px;
+  margin: 26px 0;
 }
 
 .metrics article {
@@ -121,6 +114,7 @@ button:disabled {
   padding: 20px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.08);
   transition: transform 0.2s ease;
+  min-height: 120px; /* consistent card height */
 }
 
 .metrics article:hover { transform: translateY(-4px); }
@@ -138,6 +132,7 @@ button:disabled {
   border-radius: 12px;
   padding: 20px;
   box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  min-height: 300px; /* consistent panel height */
 }
 
 .business-settings-grid {
@@ -154,6 +149,7 @@ button:disabled {
   border-radius: 12px;
   padding: 15px;
   background: linear-gradient(145deg, #fff, #f8fafc);
+  min-height: 180px; /* consistent card height */
 }
 
 .business-setting img {
