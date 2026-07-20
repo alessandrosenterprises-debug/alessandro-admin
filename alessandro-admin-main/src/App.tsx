@@ -108,7 +108,24 @@ function App() {
   if (!session) return <Login onSession={setSession} />;
   return (
     <div className="App">
-      <header><div><h1>Alessandro Admin Dashboard</h1><p>Live customer portal data</p></div><div className="header-actions"><span>{session.user.email}</span><button onClick={() => void signOut()}>Sign out</button></div></header>
+      <header>
+  <div className="admin-brand">
+    <img
+      src="/logos/alessandroenterprises.png"
+      alt="Alessandro Enterprises"
+      className="admin-brand-logo"
+    />
+    <div>
+      <h1>Alessandro Admin Dashboard</h1>
+      <p>Live customer portal data</p>
+    </div>
+  </div>
+
+  <div className="header-actions">
+    <span>{session.user.email}</span>
+    <button onClick={() => void signOut()}>Sign out</button>
+  </div>
+</header>
       <main>
         <div className="toolbar"><button onClick={() => void load()}>Refresh</button>{notice && <span className="notice">{notice}</span>}{error && <p className="error">{error}</p>}</div>
         {loading ? <p>Loading live data…</p> : <>
